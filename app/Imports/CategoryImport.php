@@ -4,8 +4,8 @@ namespace App\Imports;
 
 use App\Models\Category;
 use Maatwebsite\Excel\Concerns\ToModel;
-
-class CategoryImport implements ToModel
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
+class CategoryImport implements ToModel, WithHeadingRow
 {
     /**
     * @param array $row
@@ -15,9 +15,9 @@ class CategoryImport implements ToModel
     public function model(array $row)
     {
         return new Category([
-            'id' => $row[0],
-            'name' => $row[1],
-            'created_at' => $row[2]
+            'id' => $row['id'],
+            'name' => $row['name'],
+            'created_at' => $row['created_at']
         ]);
     }
 }

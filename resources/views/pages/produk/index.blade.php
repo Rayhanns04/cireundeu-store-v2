@@ -175,20 +175,9 @@
             <a href="/product-export" class="btn btn-warning">Export</a>
             <button type="button" class="btn btn-success" data-bs-toggle="modal"
                 data-bs-target="#importModal">Import</button>
-            <select class="selectpicker">
-                <optgroup label="Picnic">
-                    <option>Mustard</option>
-                    <option>Ketchup</option>
-                    <option>Relish</option>
-                </optgroup>
-                <optgroup label="Camping">
-                    <option>Tent</option>
-                    <option>Flashlight</option>
-                    <option>Toilet Papersadasd</option>
-                </optgroup>
-            </select>
         </div>
     </div>
+
 
     <div class="card">
         <div class="card-content">
@@ -196,18 +185,18 @@
                 <!-- Table with outer spacing -->
                 <div class="table-responsive">
                     {{-- <a href="#" class="btn btn-danger" id="deleteAllBtn">DELETE ALL SELECTED</a> --}}
-                    <div class="d-flex justify-content-between pull-left">
-                        <div class="btn-group mb-1">
-                            {{-- <select class="form-select" aria-label="Default select example" name="category_name">
+                    <div class="d-flex float-right m-2">
+                        <div class="btn-group m-2">
+                            <select class="form-select" aria-label="Default select example" name="category_id">
 
-                                <option selected> <span Class="me-50">📦</span> Filter by category
+                                <option selected value="19"> <span Class="me-50">📦</span> Filter by category
                                 </option>
 
                                 @foreach ($sub_categories as $subCategorie)
-                                    <option value="{{ $subCategorie->id }}"> <span Class="me-50">📦</span>
+                                    <option value="{{ $subCategorie->id }}"><span Class="me-50">📦</span>
                                         {{ $subCategorie->name }}</option>
                                 @endforeach
-                            </select> --}}
+                            </select>
                         </div>
                     </div>
 
@@ -297,10 +286,4 @@
 @endsection
 
 @section('scripts')
-    <!-- Initialize the plugin: -->
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('select').selectpicker();
-        });
-    </script>
 @endsection

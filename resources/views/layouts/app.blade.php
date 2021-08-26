@@ -17,11 +17,7 @@
     <link rel="stylesheet" href={{ asset('assets/vendors/bootstrap-icons/bootstrap-icons.css') }}>
     <link rel="stylesheet" href={{ asset('assets/css/app.css') }}>
     <link rel="shortcut icon" href={{ asset('assets/images/logo/logo-sm.svg') }} type="image/x-icon">
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
     <script src="https://kit.fontawesome.com/dbe540109d.js" crossorigin="anonymous"></script>
-
 </head>
 
 <body>
@@ -127,23 +123,16 @@
         </div>
     </div>
 
+    @include('sweetalert::alert')
+
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"
-        integrity="sha512-yDlE7vpGDP7o2eftkCiPZ+yuUyEcaBwoJoIhdXv71KZWugFqEphIS3PU60lEkFaz8RxaVsMpSvQxMBaKVwA5xg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src={{ asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js') }}></script>
     <script src={{ asset('assets/js/bootstrap.bundle.min.js') }}></script>
 
     <script src={{ asset('assets/vendors/apexcharts/apexcharts.js') }}></script>
     <script src={{ asset('assets/js/pages/dashboard.js') }}></script>
     <script src={{ asset('assets/js/main.js') }}></script>
-
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
-
-    <!-- (Optional) Latest compiled and minified JavaScript translation files -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>
 
     @yield('scripts')
 </body>

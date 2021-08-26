@@ -10,13 +10,14 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 
+
 class CategoryController extends Controller
 {
     public function index(Request $request) {
         if ($request->has('search')) {
             $categories = Category::where('name', 'LIKE', '%'.$request->search.'%')->get();
         } else  {
-            $categories = Category::all();
+            $categories = Category::paginate(20);
         }
 
         // Custome Variable
@@ -78,9 +79,14 @@ class CategoryController extends Controller
     public function Import(Request $request) {
         $file = $request->file('file');
         $fileName = $file->getClientOriginalName();
-        $file->move('Excel', $fileName);
 
-        Excel::import(new CategoryImport, public_path('/Excel/'.$fileName));
-        return redirect('/categories');
+        if($fileName === "Template - Kategori.xlsx") {
+            $file->move('Excel', $fileName);
+
+            Excel::import(new CategoryImport, public_path('/Excel/'.$fileName));
+            return redirect('/categories');
+        } else {
+            return redirect('/categories')->with('warning', 'Your file name should be named "Template - Kategori.xlsx"');
+        }
     }
 }

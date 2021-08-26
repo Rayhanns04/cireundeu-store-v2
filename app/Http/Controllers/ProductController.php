@@ -7,16 +7,16 @@ use App\Imports\ProductImport;
 use App\Models\Product;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
 {
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
         if ($request->has('search')) {
-            $products = Product::where('title', 'LIKE', '%'.$request->search.'%')->get();
+            $products = Product::where('title', 'LIKE', '%' . $request->search . '%')->get();
         } else {
             $products = Product::paginate(50);
             $sub_categories = SubCategory::all();
@@ -25,6 +25,9 @@ class ProductController extends Controller
         // Custome Variable
         $Title = "All Produk";
         $Action = "/products";
+
+        // dd(Product::findOrFail(1793));
+        // dd(Product::where('sub_category_id', 'LIKE', '%'."18".'%')->get());
 
         return view('pages.produk.index', compact('products', 'sub_categories', 'Title', 'Action'));
     }
@@ -36,7 +39,8 @@ class ProductController extends Controller
         return view('products.create', compact('sub_categories'));
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'image' => 'required',
             'title' => 'required',
@@ -111,7 +115,7 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
 
-        $file = public_path('assets\images\productsImage\\').$product->image;
+        $file = public_path('assets\images\productsImage\\') . $product->image;
 
         if (file_exists($file)) {
             @unlink($file);
@@ -119,10 +123,10 @@ class ProductController extends Controller
 
         $product->delete();
         return redirect('/products');
-
     }
 
-    public function destroyAll(Request $request) {
+    public function destroyAll(Request $request)
+    {
         if (!isset($request->ids)) {
             return response()->json([
                 'message' => "please select at least one data you want to delete"
@@ -134,16 +138,24 @@ class ProductController extends Controller
         return redirect('/products');
     }
 
-    public function Export() {
+    public function Export()
+    {
         return Excel::download(new ProductExport, 'product.xlsx');
     }
 
-    public function Import(Request $request) {
+    public function Import(Request $request)
+    {
         $file = $request->file('file');
         $fileName = $file->getClientOriginalName();
-        $file->move('Excel', $fileName);
 
-        Excel::import(new ProductImport, public_path('/Excel/'.$fileName));
-        return redirect('/products');
+        if ($fileName === "Template - Product.xlsx") {
+
+            $file->move('Excel', $fileName);
+
+            Excel::import(new ProductImport, public_path('/Excel/' . $fileName));
+            return redirect('/products')->with('toast_success', 'Success import from your excel file');
+        } else {
+            return redirect('/products')->with('warning', 'Your file name should be named "Template - Product.xlsx"');
+        }
     }
 }
