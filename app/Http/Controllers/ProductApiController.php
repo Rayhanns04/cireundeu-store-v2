@@ -100,4 +100,18 @@ class ProductApiController extends Controller
          return response()->json(['message' => 'Product deleted', 'data' => $product], Response::HTTP_OK);
     }
 
+
+    public function massDestroy(Request $request)
+    {
+        if (!isset($request->ids)) {
+            return response()->json([
+                'message' => "please select at least one data you want to delete"
+            ], 404);
+        }
+
+        $ids = $request->ids;
+        // dd($ids);
+        Product::whereIn('id', $ids)->delete();
+        return response()->json(['message '=>"Salaries Deleted successfully."]);
+    }
 }

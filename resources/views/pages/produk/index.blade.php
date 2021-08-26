@@ -170,6 +170,9 @@
     <div class="page-heading d-md-flex justify-content-between">
         <h3>Table all {{ $Title }}</h3>
         <div>
+            <button type="submit" class="btn btn-danger disabled" 
+                data-bs-toggle="tooltip" data-bs-placement="bottom" 
+                title="Delete All Selected" id="massDelete"><i class="bi bi-trash"></i></button>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                 data-bs-target="#createModal">Create</button>
             <a href="/product-export" class="btn btn-warning">Export</a>
@@ -232,7 +235,7 @@
                                 </tr>
                             @endif
                             @foreach ($products as $key => $item)
-                                <tr id="salary-{{ $item->id }}">
+                                <tr id="product-{{ $item->id }}">
                                     <td class="text-bold-500 mw-10">
                                         <div class="form-check form-check-inline">
                                             <input data-id="{{ $item->id }}" type="checkbox" name="ids[]"
@@ -297,6 +300,8 @@
 @endsection
 
 @section('scripts')
+    <script src="{{ asset('js/scripts/pages/produk/index.js') }}" type="module"></script>
+    
     <!-- Initialize the plugin: -->
     <script type="text/javascript">
         $(document).ready(function() {

@@ -31,6 +31,7 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
 
 Route::get('/fee', [ShippingfeeController::class, 'apiIndex']);
 Route::resource('/products', ProductApiController::class);
+Route::delete('/products', [ProductApiController::class, 'massDestroy']);
 Route::resource('/categories', CategoryApiController::class);
 Route::resource('/carousels', CarouselApiController::class);
 Route::resource('/phones', PhoneNumberApiController::class);
