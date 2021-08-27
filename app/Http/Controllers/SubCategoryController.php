@@ -87,7 +87,7 @@ class SubCategoryController extends Controller
 
     public function Export()
     {
-        return Excel::download(new SubCategoryExport, 'subcategory.xlsx');
+        return Excel::download(new SubCategoryExport, 'Template - SubCategory.xlsx');
     }
 
     public function Import(Request $request)

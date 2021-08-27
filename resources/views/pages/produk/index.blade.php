@@ -184,12 +184,12 @@
             <div class="card-body">
                 <!-- Table with outer spacing -->
                 <div class="table-responsive">
-                    {{-- <a href="#" class="btn btn-danger" id="deleteAllBtn">DELETE ALL SELECTED</a> --}}
+                    {{-- <a href="#" class="btn btn-danger" id="deleteAllBtn">DELETE ALL SELECTED</a>
                     <div class="d-flex float-right m-2">
                         <div class="btn-group m-2">
                             <select class="form-select" aria-label="Default select example" name="category_id">
 
-                                <option selected value="19"> <span Class="me-50">📦</span> Filter by category
+                                <option selected value="null"> <span Class="me-50">📦</span> Filter by category
                                 </option>
 
                                 @foreach ($sub_categories as $subCategorie)
@@ -198,7 +198,7 @@
                                 @endforeach
                             </select>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <table class="table table-sm">
                         <thead>

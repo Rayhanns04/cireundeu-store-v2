@@ -140,7 +140,7 @@ class ProductController extends Controller
 
     public function Export()
     {
-        return Excel::download(new ProductExport, 'product.xlsx');
+        return Excel::download(new ProductExport, 'Template - Product.xlsx');
     }
 
     public function Import(Request $request)

@@ -13,10 +13,11 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class CategoryController extends Controller
 {
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
         if ($request->has('search')) {
-            $categories = Category::where('name', 'LIKE', '%'.$request->search.'%')->get();
-        } else  {
+            $categories = Category::where('name', 'LIKE', '%' . $request->search . '%')->get();
+        } else {
             $categories = Category::paginate(20);
         }
 
@@ -27,11 +28,13 @@ class CategoryController extends Controller
         return view('pages.categories.index', compact('categories', 'Title', 'Action'));
     }
 
-    public function create() {
+    public function create()
+    {
         return view('categories.create');
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string'
         ]);
@@ -48,13 +51,15 @@ class CategoryController extends Controller
         return redirect('/categories')->with('status', 'Success create new category!');
     }
 
-    public function edit($id) {
+    public function edit($id)
+    {
         $category = Category::findOrFail($id);
 
         return view('categories.edit', compact('category'));
     }
 
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id)
+    {
         $category = Category::findOrFail($id);
 
         $category->name = $request->name;
@@ -65,26 +70,29 @@ class CategoryController extends Controller
         return redirect('/categories')->with('status', 'Success update category!');
     }
 
-    public function destroy($id) {
+    public function destroy($id)
+    {
         $category = Category::findOrFail($id);
         $category->delete();
 
         return redirect('/categories');
     }
 
-    public function Export() {
-        return Excel::download(new CategoryExport, 'category.xlsx');
+    public function Export()
+    {
+        return Excel::download(new CategoryExport, 'Template - Kategori.xlsx');
     }
 
-    public function Import(Request $request) {
+    public function Import(Request $request)
+    {
         $file = $request->file('file');
         $fileName = $file->getClientOriginalName();
 
-        if($fileName === "Template - Kategori.xlsx") {
+        if ($fileName === "Template - Kategori.xlsx") {
             $file->move('Excel', $fileName);
 
-            Excel::import(new CategoryImport, public_path('/Excel/'.$fileName));
-            return redirect('/categories');
+            Excel::import(new CategoryImport, public_path('/Excel/' . $fileName));
+            return redirect('/categories')->with('toast_success', 'Success import from your excel file');
         } else {
             return redirect('/categories')->with('warning', 'Your file name should be named "Template - Kategori.xlsx"');
         }

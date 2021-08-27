@@ -20,7 +20,7 @@ class CarouselController extends Controller
     public function index(Request $request)
     {
         if ($request->has('search')) {
-            $carousels = Carousel::where('title', 'LIKE','%'.$request->search.'%')->get();
+            $carousels = Carousel::where('title', 'LIKE', '%' . $request->search . '%')->get();
         } else {
             $carousels = Carousel::all();
         }
@@ -94,7 +94,7 @@ class CarouselController extends Controller
      */
     public function update(Request $request, $id)
     {
-         $validator = Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'image' => 'required',
             'title' => 'required|string|max:255'
         ]);
@@ -124,27 +124,36 @@ class CarouselController extends Controller
      */
     public function destroy($id)
     {
-       $carousel = Carousel::findOrFail($id);
-       $file = public_path("assets\images\carousels\\".$carousel->image);
+        $carousel = Carousel::findOrFail($id);
+        $file = public_path("assets\images\carousels\\" . $carousel->image);
 
-       if (file_exists($file)) {
-           @unlink($file);
-       }
+        if (file_exists($file)) {
+            @unlink($file);
+        }
 
-       $carousel->delete();
-       return redirect('/carousels');
+        $carousel->delete();
+        return redirect('/carousels');
     }
 
-    public function Export() {
-        return Excel::download(new CarouselExport, 'slider.xlsx');
+    public function Export()
+    {
+        return Excel::download(new CarouselExport, 'Template - Slider.xlsx');
     }
 
-    public function Import(Request $request) {
+    public function Import(Request $request)
+    {
         $file = $request->file('file');
         $fileName = $file->getClientOriginalName();
-        $file->move('Excel', $fileName);
 
-        Excel::import(new CarouselImport, public_path('/Excel/'.$fileName));
-        return redirect('/carousels');
+
+        if ($fileName === "Template - Slider.xlsx") {
+
+            $file->move('Excel', $fileName);
+
+            Excel::import(new CarouselImport, public_path('/Excel/' . $fileName));
+            return redirect('/carousels')->with('toast_success', 'Success import from your excel file');
+        } else {
+            return redirect('/carousels')->with('warning', 'Your file name should be named "Template - Slider.xlsx"');
+        }
     }
 }
