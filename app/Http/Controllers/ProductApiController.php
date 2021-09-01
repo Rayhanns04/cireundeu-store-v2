@@ -37,7 +37,11 @@ class ProductApiController extends Controller
         $productsPaginate = $products->paginate($request->input('per_page', 90));
 
         return collect([
-            'total' => $productsTotal,
+            'pagination' => [
+                'page' => $request->query->get('page'),
+                'per_page' => $request->query->get('per_page'),
+                'total' => $productsTotal,
+            ],
             'data' => ProductResource::collection($productsPaginate),
         ]);
     }
