@@ -16,7 +16,8 @@
         "laravel/ui": "^3.3",
         "maatwebsite/excel": "^3.1",
         "realrashid/sweet-alert": "^4.0",
-        "snapappointments/bootstrap-select": "^1.13"
+        "snapappointments/bootstrap-select": "^1.13",
+        "spatie/laravel-query-builder": "^3.5"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

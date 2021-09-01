@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProductCollection;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ProductApiController extends Controller
 {
@@ -15,11 +17,29 @@ class ProductApiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::with('subCategory')->get();
+        // $products = Product::with('subCategory')->orderBy('created_at', 'desc')->paginate($request->input('per_page', 90));
 
-        return response()->json(['message' => 'success get data', 'data' => ProductResource::collection($products)], Response::HTTP_OK);
+        // if ($request->has('search')) {
+        //     $products = Product::with('subCategory')->where('title', 'LIKE', '%' . $request->search . '%')->orderBy('created_at', 'desc')->paginate($request->input('per_page', 90));
+        // } else {
+        //     $products = Product::with('subCategory')->orderBy('created_at', 'desc')->paginate($request->input('per_page', 90));
+        // }
+
+        // $products = QueryBuilder::for(Product::class)->allowedFilters('sub_category', 'title')->with('subCategory')->orderBy('created_at', 'desc')->paginate($request->input('per_page', 90));
+        // ->where('title', 'LIKE', '%' . $request->has('title') . '%')
+        // return new ProductCollection($productsPaginate);
+
+        $products = Product::with('subCategory')->where('sub_category_id', 'LIKE', '%' . $request->input('sub') . '%')->where('title', 'LIKE', '%' . $request->input('title') . '%')->orderBy('created_at', 'desc');
+
+        $productsTotal = $products->count();
+        $productsPaginate = $products->paginate($request->input('per_page', 90));
+
+        return collect([
+            'total' => $productsTotal,
+            'data' => ProductResource::collection($productsPaginate),
+        ]);
     }
 
     /**
@@ -56,7 +76,7 @@ class ProductApiController extends Controller
     {
         $product = Product::findOrFail($id);
 
-        return response()->json(['message' => 'Detail of product resource','data' => $product], Response::HTTP_OK);
+        return response()->json(['message' => 'Detail of product resource', 'data' => $product], Response::HTTP_OK);
     }
 
     /**
@@ -94,10 +114,9 @@ class ProductApiController extends Controller
      */
     public function destroy($id)
     {
-         $product = Product::findOrFail($id);
-         $product->delete();
+        $product = Product::findOrFail($id);
+        $product->delete();
 
-         return response()->json(['message' => 'Product deleted', 'data' => $product], Response::HTTP_OK);
+        return response()->json(['message' => 'Product deleted', 'data' => $product], Response::HTTP_OK);
     }
-
 }

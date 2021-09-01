@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OurLife</title>
+    <title>Login</title>
     <link rel="shortcut icon" href={{ asset('assets/images/logo/logo-sm.svg') }} type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href={{ asset('assets/css/bootstrap.css') }}>
