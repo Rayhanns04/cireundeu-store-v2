@@ -171,6 +171,8 @@
     <div class="page-heading d-md-flex justify-content-between">
         <h3>Table all {{ $Title }}</h3>
         <div>
+            <button type="submit" class="btn btn-danger disabled" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                title="Delete All Selected" id="massDelete"><i class="bi bi-trash"></i></button>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                 data-bs-target="#createModal">Create</button>
             <a href="/product-export" class="btn btn-warning">Export</a>
@@ -185,27 +187,13 @@
             <div class="card-body">
                 <!-- Table with outer spacing -->
                 <div class="table-responsive">
-                    {{-- <a href="#" class="btn btn-danger" id="deleteAllBtn">DELETE ALL SELECTED</a>
-                    <div class="d-flex float-right m-2">
-                        <div class="btn-group m-2">
-                            <select class="form-select" aria-label="Default select example" name="category_id">
-
-                                <option selected value="null"> <span Class="me-50">📦</span> Filter by category
-                                </option>
-
-                                @foreach ($sub_categories as $subCategorie)
-                                    <option value="{{ $subCategorie->id }}"><span Class="me-50">📦</span>
-                                        {{ $subCategorie->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div> --}}
 
                     <!-- Actual search box -->
-                    <div class="form-group has-search">
-                        <span class="fa fa-search form-control-feedback"></span>
-                        <input type="text" class="form-control" placeholder="Search" name="search">
-                    </div>
+                    <form method="GET" action="{{ $Action }}">
+                        <div class="form-group has-search search-container">
+                            <input type="search" class="form-control" placeholder="Cari barang " name="search">
+                        </div>
+                    </form>
 
                     <table class="table table-sm">
                         <thead>
@@ -228,7 +216,7 @@
                                 </tr>
                             @endif
                             @foreach ($products as $key => $item)
-                                <tr id="salary-{{ $item->id }}">
+                                <tr id="item-{{ $item->id }}">
                                     <td class="text-bold-500 mw-10">
                                         <div class="form-check form-check-inline">
                                             <input data-id="{{ $item->id }}" type="checkbox" name="ids[]"
@@ -293,4 +281,5 @@
 @endsection
 
 @section('scripts')
+    <script src="{{ asset('js/scripts/pages/produk/index.js') }}" type="module"></script>
 @endsection

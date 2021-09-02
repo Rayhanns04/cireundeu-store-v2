@@ -16,7 +16,7 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         if ($request->has('search')) {
-            $categories = Category::where('name', 'LIKE', '%' . $request->search . '%')->get();
+            $categories = Category::where('name', 'LIKE', '%' . $request->search . '%')->paginate(50);
         } else {
             $categories = Category::paginate(20);
         }

@@ -8,7 +8,7 @@
 /* Bootstrap 4 text input with search icon */
 
 .has-search .form-control {
-    padding-left: 2.375rem;
+    padding-left: 2rem;
     margin: 16px;
 }
 
@@ -23,6 +23,11 @@
     pointer-events: none;
     color: #aaa;
 }
+
+.search-container {
+    width: 98%;
+}
+
 .alert {
     border: none;
 }

@@ -61,15 +61,16 @@
 
         {{-- Edit Modal ----------------------------------- --}}
         @foreach ($categories as $category)
-            <div class="modal fade" id="editModal{{ $category->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
+            <div class="modal fade" id="editModal{{ $category->id }}" tabindex="-1"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">Edit {{ $Title }} |
                                 {{ $category->id }}
                             </h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <form action="{{ $Action }}/save-edit/{{ $category->id }}" method="POST"
@@ -99,6 +100,8 @@
     <div class="page-heading d-md-flex justify-content-between">
         <h3> {{ $Title }}</h3>
         <div>
+            <button type="submit" class="btn btn-danger disabled" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                title="Delete All Selected" id="massDelete"><i class="bi bi-trash"></i></button>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                 data-bs-target="#createModal">Create</button>
             <a href="/category-export" class="btn btn-warning">Export</a>
@@ -112,10 +115,19 @@
             <div class="card-body">
                 <!-- Table with outer spacing -->
                 <div class="table-responsive">
+                    <!-- Actual search box -->
+                    <form method="GET" action="{{ $Action }}">
+                        <div class="form-group has-search search-container">
+                            <input type="search" class="form-control" placeholder="Cari barang " name="search">
+                        </div>
+                    </form>
+
                     <table class="table table-sm">
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th class="mw-10">
+                                    <input type="checkbox" id="selectAll" class="form-check-input">
+                                </th>
                                 <th>Category</th>
                                 <th>Aksi</th>
                             </tr>
@@ -127,8 +139,16 @@
                                 </tr>
                             @endif
                             @foreach ($categories as $key => $item)
-                                <tr>
-                                    <td class="text-bold-500">{{ $categories->firstItem() + $key }}</td>
+                                <tr id="item-{{ $item->id }}">
+
+                                    <td class="text-bold-500 mw-10">
+                                        <div class="form-check form-check-inline">
+                                            <input data-id="{{ $item->id }}" type="checkbox" name="ids[]"
+                                                class="form-check-input check-id">
+                                            <label class="form-check-label text-bold-500" for="inlineRadio1">
+                                                {{ $categories->firstItem() + $key }}</label>
+                                        </div>
+                                    </td>
                                     <td>{{ $item->name }}</td>
                                     <td>
                                         <a href="#" type="button" class="btn btn-primary mx-2" data-bs-toggle="modal"
@@ -170,4 +190,8 @@
         </div>
     </div>
 
+@endsection
+
+@section('scripts')
+    <script src="{{ asset('js/scripts/pages/categories/index.js') }}" type="module"></script>
 @endsection

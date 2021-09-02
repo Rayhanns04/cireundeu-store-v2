@@ -6,6 +6,8 @@ use App\Http\Controllers\CategoryApiController;
 use App\Http\Controllers\PhoneNumberApiController;
 use App\Http\Controllers\ProductApiController;
 use App\Http\Controllers\ShippingfeeController;
+use App\Http\Controllers\Api\SubCategoryApiController;
+use App\Http\Controllers\Api\TypeOfPaymentApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,13 +27,21 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 // Protected routes
-Route::group(['middleware' => 'auth:sanctum'], function() {
+Route::group(['middleware' => 'auth:sanctum'], function () {
     //
 });
 
 Route::get('/fee', [ShippingfeeController::class, 'apiIndex']);
+
+Route::resource('/typeofpayment', TypeOfPaymentApiController::class);
+
 Route::resource('/products', ProductApiController::class);
+Route::delete('/products', [ProductApiController::class, 'massDestroy']);
+
 Route::resource('/categories', CategoryApiController::class);
+Route::delete('/categories', [CategoryApiController::class, 'massDestroy']);
+Route::delete('/subcategories', [SubCategoryApiController::class, 'massDestroy']);
+
 Route::resource('/carousels', CarouselApiController::class);
 Route::resource('/phones', PhoneNumberApiController::class);
 Route::get('/getImage/{path}/{imagename}', [ApiDownloadImageController::class, 'index']);

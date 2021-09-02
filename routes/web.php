@@ -8,6 +8,7 @@ use App\Http\Controllers\PhoneNumberController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ShippingfeeController;
 use App\Http\Controllers\SubCategoryController;
+use App\Http\Controllers\TypeOfPaymentController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -56,6 +57,18 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/category-export', [CategoryController::class, 'Export']);
     Route::post('/category-import', [CategoryController::class, 'Import']);
+
+    Route::prefix('/payment')->group(function () {
+        Route::get('/', [TypeOfPaymentController::class, 'index']);
+        Route::get('/create', [TypeOfPaymentController::class, 'create']);
+        Route::post('/save-create', [TypeOfPaymentController::class, 'store']);
+        Route::get('/edit/{id}', [TypeOfPaymentController::class, 'edit']);
+        Route::post('/save-edit/{id}', [TypeOfPaymentController::class, 'update']);
+        Route::get('/{id}', [TypeOfPaymentController::class, 'destroy']);
+    });
+
+    Route::get('/payment-export', [TypeOfPaymentController::class, 'Export']);
+    Route::post('/payment-import', [TypeOfPaymentController::class, 'Import']);
 
     Route::prefix('/subcategories')->group(function () {
         Route::get('/', [SubCategoryController::class, 'index']);

@@ -19,18 +19,6 @@ class ProductApiController extends Controller
      */
     public function index(Request $request)
     {
-        // $products = Product::with('subCategory')->orderBy('created_at', 'desc')->paginate($request->input('per_page', 90));
-
-        // if ($request->has('search')) {
-        //     $products = Product::with('subCategory')->where('title', 'LIKE', '%' . $request->search . '%')->orderBy('created_at', 'desc')->paginate($request->input('per_page', 90));
-        // } else {
-        //     $products = Product::with('subCategory')->orderBy('created_at', 'desc')->paginate($request->input('per_page', 90));
-        // }
-
-        // $products = QueryBuilder::for(Product::class)->allowedFilters('sub_category', 'title')->with('subCategory')->orderBy('created_at', 'desc')->paginate($request->input('per_page', 90));
-        // ->where('title', 'LIKE', '%' . $request->has('title') . '%')
-        // return new ProductCollection($productsPaginate);
-
         $products = Product::with('subCategory')->where('sub_category_id', 'LIKE', '%' . $request->input('sub') . '%')->where('title', 'LIKE', '%' . $request->input('title') . '%')->orderBy('created_at', 'desc');
 
         $productsTotal = $products->count();
@@ -122,5 +110,19 @@ class ProductApiController extends Controller
         $product->delete();
 
         return response()->json(['message' => 'Product deleted', 'data' => $product], Response::HTTP_OK);
+    }
+
+    public function massDestroy(Request $request)
+    {
+        if (!isset($request->ids)) {
+            return response()->json([
+                'message' => "please select at least one data you want to delete"
+            ], 404);
+        }
+
+        $ids = $request->ids;
+
+        Product::whereIn('id', $ids)->delete();
+        return response()->json(['message ' => "Salaries Deleted successfully."]);
     }
 }

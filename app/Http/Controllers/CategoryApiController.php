@@ -53,7 +53,7 @@ class CategoryApiController extends Controller
     {
         $category = Category::findOrFail($id);
 
-        return response()->json(['message' => 'Detail of category resource','data' => $category], Response::HTTP_OK);
+        return response()->json(['message' => 'Detail of category resource', 'data' => $category], Response::HTTP_OK);
     }
 
     /**
@@ -90,6 +90,20 @@ class CategoryApiController extends Controller
         $category = Category::findOrFail($id);
         $category->delete();
 
-         return response()->json(['message' => 'Category deleted', 'data' => $category], Response::HTTP_OK);
+        return response()->json(['message' => 'Category deleted', 'data' => $category], Response::HTTP_OK);
+    }
+
+    public function massDestroy(Request $request)
+    {
+        if (!isset($request->ids)) {
+            return response()->json([
+                'message' => "please select at least one data you want to delete"
+            ], 404);
+        }
+
+        $ids = $request->ids;
+        // dd($ids);
+        Category::whereIn('id', $ids)->delete();
+        return response()->json(['message ' => "Salaries Deleted successfully."]);
     }
 }

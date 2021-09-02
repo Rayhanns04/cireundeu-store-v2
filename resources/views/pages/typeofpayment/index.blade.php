@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Cirundeu Store | Sub Category')
+@section('title', 'Cireundeu Store | Category')
 
 @section('modal')
     <div>
@@ -13,7 +13,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form enctype="multipart/form-data" action="/subcategory-import" method="POST">
+                        <form enctype="multipart/form-data" action="/category-import" method="POST">
                             @csrf
                             <div class="mb-3">
                                 <label for="recipient-name" class="col-form-label">File category excel</label>
@@ -43,22 +43,8 @@
                         <form enctype="multipart/form-data" action="{{ $Action }}/save-create" method="POST">
                             @csrf
 
-                            {{-- Don't forget for select change select name --}}
                             <div class="mb-3">
-                                <label for="recipient-name" class="col-form-label">Jenis Produk</label>
-                                <select class="form-select" aria-label="Default select example" name="category_name">
-
-                                    <option selected>Open this select menu
-                                    </option>
-
-                                    @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="recipient-name" class="col-form-label">Nama sub kategori</label>
+                                <label for="recipient-name" class="col-form-label">Nama kategori</label>
                                 <input type="text" class="form-control" name="name" id="name">
                             </div>
 
@@ -74,41 +60,26 @@
         {{-- End create Modal ----------------------------------- --}}
 
         {{-- Edit Modal ----------------------------------- --}}
-        @foreach ($subcategories as $subcategory)
-            <div class="modal fade" id="editModal{{ $subcategory->id }}" tabindex="-1"
-                aria-labelledby="exampleModalLabel" aria-hidden="true">
+        @foreach ($types as $type)
+            <div class="modal fade" id="editModal{{ $type->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">Edit {{ $Title }} |
-                                {{ $subcategory->id }}
+                                {{ $type->id }}
                             </h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form action="{{ $Action }}/save-edit/{{ $subcategory->id }}" method="POST"
+                            <form action="{{ $Action }}/save-edit/{{ $type->id }}" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
-
-                                {{-- Don't forget for select change select name --}}
                                 <div class="mb-3">
-                                    <label for="recipient-name" class="col-form-label">Jenis Produk</label>
-                                    <select class="form-select" aria-label="Default select example" name="category_name">
-
-                                        <option selected>Open this select menu ( {{ $subcategory->category->name }} )
-                                        </option>
-
-                                        @foreach ($categories as $category)
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="recipient-name" class="col-form-label">Nama sub kategori</label>
+                                    <label for="recipient-name" class="col-form-label">Metode Pembayaran</label>
                                     <input type="text" class="form-control" name="name" id="name"
-                                        value="{{ $subcategory->name }}">
+                                        value="{{ $type->name }}">
                                 </div>
 
                                 <div class="float-end">
@@ -129,11 +100,9 @@
     <div class="page-heading d-md-flex justify-content-between">
         <h3> {{ $Title }}</h3>
         <div>
-            <button type="submit" class="btn btn-danger disabled" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                title="Delete All Selected" id="massDelete"><i class="bi bi-trash"></i></button>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                 data-bs-target="#createModal">Create</button>
-            <a href="/subcategory-export" class="btn btn-warning">Export</a>
+            <a href="/category-export" class="btn btn-warning">Export</a>
             <button type="button" class="btn btn-success" data-bs-toggle="modal"
                 data-bs-target="#importModal">Import</button>
         </div>
@@ -144,46 +113,24 @@
             <div class="card-body">
                 <!-- Table with outer spacing -->
                 <div class="table-responsive">
-                    <!-- Actual search box -->
-                    <form method="GET" action="{{ $Action }}">
-                        <div class="form-group has-search search-container">
-                            <input type="search" class="form-control" placeholder="Cari barang " name="search">
-                        </div>
-                    </form>
-
                     <table class="table table-sm">
                         <thead>
                             <tr>
-                                <th class="mw-10">
-                                    <input type="checkbox" id="selectAll" class="form-check-input">
-                                </th>
-                                <th>Category</th>
-                                <th>Sub Category</th>
+                                <th>#</th>
+                                <th>Metode Pembayaran</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @if ($subcategories->count() <= 0)
+                            @if ($types->count() <= 0)
                                 <tr>
                                     <td colspan="6" class="h2 p-4 text-center m-0">Not Found</td>
                                 </tr>
                             @endif
-                            @foreach ($subcategories as $key => $item)
-                                <tr id="item-{{ $item->id }}">
-                                    <td class="text-bold-500 mw-10">
-                                        <div class="form-check form-check-inline">
-                                            <input data-id="{{ $item->id }}" type="checkbox" name="ids[]"
-                                                class="form-check-input check-id">
-                                            <label class="form-check-label text-bold-500" for="inlineRadio1">
-                                                {{ $subcategories->firstItem() + $key }}</label>
-                                        </div>
-                                    </td>
-                                    <td><span
-                                            class="badge rounded-pill bg-primary text-light font-size-14 px-3 py-2">{{ $item->category->name }}</span>
-                                    </td>
-                                    <td>
-                                        {{ $item->name }}
-                                    </td>
+                            @foreach ($types as $key => $item)
+                                <tr>
+                                    <td class="text-bold-500">{{ $types->firstItem() + $key }}</td>
+                                    <td>{{ $item->name }}</td>
                                     <td>
                                         <a href="#" type="button" class="btn btn-primary mx-2" data-bs-toggle="modal"
                                             data-bs-target="#editModal{{ $item->id }}">
@@ -205,19 +152,18 @@
                             @endforeach
                         </tbody>
                     </table>
-
                     <div class="d-flex justify-content-between pull-left">
                         <div>
                             Showing
-                            {{ $subcategories->firstItem() }}
+                            {{ $types->firstItem() }}
                             to
-                            {{ $subcategories->lastItem() }}
+                            {{ $types->lastItem() }}
                             of
-                            {{ $subcategories->total() }}
+                            {{ $types->total() }}
                             entries
                         </div>
                         <div class="pull-right">
-                            {{ $subcategories->links() }}
+                            {{ $types->links() }}
                         </div>
                     </div>
                 </div>
@@ -225,8 +171,4 @@
         </div>
     </div>
 
-@endsection
-
-@section('scripts')
-    <script src="{{ asset('js/scripts/pages/subcategories/index.js') }}" type="module"></script>
 @endsection

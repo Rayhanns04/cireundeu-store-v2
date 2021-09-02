@@ -16,11 +16,11 @@ class SubCategoryController extends Controller
     public function index(Request $request)
     {
         if ($request->has('search')) {
-            $subcategories = SubCategory::where('name', 'LIKE', '%' . $request->search . '%')->get();
+            $subcategories = SubCategory::where('name', 'LIKE', '%' . $request->search . '%')->paginate(50);
         } else {
             $subcategories = SubCategory::paginate(20);
-            $categories = Category::all();
         }
+        $categories = Category::all();
 
         // Custome Variable
         $Title = "All Sub Kategori";

@@ -28,8 +28,8 @@
                 <div class="sidebar-header">
                     <div class="d-flex justify-content-between">
                         <div class="logo">
-                            <a href="#"><img src="{{ asset('assets/images/logo/logo-large.svg') }}" class="img-fluid"
-                                    alt="Logo" srcset=""></a>
+                            <a href="#"><img src="{{ asset('assets/images/logo/logo-large.svg') }}"
+                                    class="img-fluid" alt="Logo" srcset=""></a>
                         </div>
                         <div class="toggler">
                             <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
@@ -84,6 +84,9 @@
                                 <li class="submenu-item ">
                                     <a href="/fee">Pajak Pengiriman</a>
                                 </li>
+                                <li class="submenu-item ">
+                                    <a href="/payment">Metode Pembayaran</a>
+                                </li>
                             </ul>
                         </li>
 
@@ -95,7 +98,8 @@
                                 <span> {{ __('Logout') }}</span>
                             </a>
 
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                class="d-none">
                                 @csrf
                             </form>
                         </li>

@@ -16,11 +16,11 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         if ($request->has('search')) {
-            $products = Product::where('title', 'LIKE', '%' . $request->search . '%')->get();
+            $products = Product::where('title', 'LIKE', '%' . $request->search . '%')->paginate(50);
         } else {
             $products = Product::paginate(50);
-            $sub_categories = SubCategory::all();
         }
+        $sub_categories = SubCategory::all();
 
         // Custome Variable
         $Title = "All Produk";
