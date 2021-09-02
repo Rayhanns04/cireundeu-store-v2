@@ -26,9 +26,6 @@ class ProductController extends Controller
         $Title = "All Produk";
         $Action = "/products";
 
-        // dd(Product::findOrFail(1793));
-        // dd(Product::where('sub_category_id', 'LIKE', '%'."18".'%')->get());
-
         return view('pages.produk.index', compact('products', 'sub_categories', 'Title', 'Action'));
     }
 

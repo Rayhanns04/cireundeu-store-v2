@@ -34,21 +34,22 @@
 
         {{-- Edit Modal ----------------------------------- --}}
         @foreach ($phoneNumbers as $phoneNumber)
-            <div class="modal fade" id="editModal{{ $phoneNumber->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
+            <div class="modal fade" id="editModal{{ $phoneNumber->id }}" tabindex="-1"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">Edit {{ $Title }}
                             </h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <form action="{{ $Action }}/save-edit/{{ $phoneNumber->id }}" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
                                 <div class="mb-3">
-                                    <label for="recipient-name" class="col-form-label">Nomer telepon</label>
+                                    <label for="recipient-name" class="col-form-label">Nomer telepon Tanpa 0</label>
                                     <input type="text" class="form-control" name="name" id="name"
                                         value="{{ $phoneNumber->name }}">
                                 </div>
@@ -83,7 +84,7 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Nomer Telepon</th>
+                                <th>Nomer Telepon Tanpa 0</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -91,7 +92,7 @@
                             @foreach ($phoneNumbers as $phoneNumber)
                                 <tr>
                                     <td class="text-bold-500">{{ $loop->iteration }}</td>
-                                    <td>{{ $phoneNumber->name }}</td>
+                                    <td>+62 {{ $phoneNumber->name }}</td>
                                     <td>
                                         <a href="#" type="button" class="btn btn-primary mx-2" data-bs-toggle="modal"
                                             data-bs-target="#editModal{{ $phoneNumber->id }}">

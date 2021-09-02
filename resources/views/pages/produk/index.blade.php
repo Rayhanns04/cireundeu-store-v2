@@ -97,7 +97,8 @@
                             <h5 class="modal-title" id="exampleModalLabel">Edit {{ $Title }} |
                                 {{ $product->id }}
                             </h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <form action="{{ $Action }}/save-edit/{{ $product->id }}" method="POST"
@@ -199,6 +200,12 @@
                             </select>
                         </div>
                     </div> --}}
+
+                    <!-- Actual search box -->
+                    <div class="form-group has-search">
+                        <span class="fa fa-search form-control-feedback"></span>
+                        <input type="text" class="form-control" placeholder="Search" name="search">
+                    </div>
 
                     <table class="table table-sm">
                         <thead>
